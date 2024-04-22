@@ -1,0 +1,81 @@
+<?php
+
+/**
+ * @file
+ * API for generating and processing eSignature requests with Dropbox Sign.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_help().
+ */
+function dropbox_sign_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.dropbox_sign':
+      $output = '';
+      $output .= '<p>' . t('The Dropbox Sign module provides an API to generate and process eSignature requests with <a href=":dropbox_sign">Dropbox Sign</a>. To use it, you need a Dropbox Sign account and API key (which can be entered on the <a href=":config">configuration page</a>).',
+      [
+        ':dropbox_sign' => Url::fromUri('https://sign.dropbox.com/'),
+        ':config' => Url::fromRoute('dropbox_sign.settings'),
+      ]) . '</p>';
+      $output .= '<p>' . t("This module provides a simple API for creating Dropbox Sign connections and creating eSignature requests as well as provide the client so that any of the API SDK's methods can be directly called.") . '</p>';
+      return $output;
+  }
+}
+
+/**
+ * Validate the Dropbox Sign API key by performing a health check.
+ *
+ * @param string $api_key
+ *   The API key to validate.
+ *
+ * @return string|null
+ *   An error message if the API key is invalid, otherwise NULL.
+ */
+function dropbox_sign_validate_dropboxsign_api_key(string $api_key): ?string {
+
+  // URL for the Dropbox Sign API endpoint.
+  $url = "https://api.hellosign.com/v3/template/list";
+
+  // Headers for the request.
+  $headers = [
+    "Content-Type: application/json",
+  ];
+
+  // Authorization header for Basic Authentication.
+  $auth_header = "Authorization: Basic " . base64_encode($api_key . ":");
+
+  // Add the authorization header to the list of headers.
+  $headers[] = $auth_header;
+
+  // Initialize cURL session.
+  $ch = curl_init();
+
+  // Set cURL options.
+  curl_setopt($ch, CURLOPT_URL, $url);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+  // Execute the cURL request.
+  $response = curl_exec($ch);
+
+  // Check for errors.
+  if (curl_errno($ch)) {
+    echo 'Curl error: ' . curl_error($ch);
+  }
+
+  // Close cURL session.
+  curl_close($ch);
+
+  $response_array = json_decode($response, TRUE);
+
+  // Check if the response contains an error.
+  if (isset($response_array['error'])) {
+    // Error response.
+    return $response_array['error']['error_msg'];
+  }
+
+  return NULL;
+}

@@ -1,0 +1,5 @@
+dropbox_sign.settings:
+  title: Dropbox Sign API
+  description: 'Configure connection settings for the Dropbox Sign API'
+  route_name: dropbox_sign.settings
+  parent: system.admin_config_system

@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the dropbox_sign module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function dropbox_sign_requirements($phase) {
+  $requirements = [];
+  if ($phase == 'install') {
+    if (!class_exists('\Dropbox\Sign\Api\SignatureRequestApi')) {
+      $requirements['dropbox_sign_library'] = [
+        'description' => t('Dropbox Sign integration requires the hellosign/dropbox-sign-php library.'),
+        'severity' => REQUIREMENT_ERROR,
+      ];
+    }
+  }
+
+  return $requirements;
+}

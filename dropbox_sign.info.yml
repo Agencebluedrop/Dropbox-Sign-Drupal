@@ -1,0 +1,7 @@
+name: Dropbox Sign
+type: module
+description: Provides an API to generate and process eSignature requests with Dropbox Sign API.
+core_version_requirement: ^8 || ^9 || ^10
+configure: dropbox_sign.config
+dependencies:
+  - encryption:encryption

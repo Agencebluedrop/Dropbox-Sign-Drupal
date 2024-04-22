@@ -1,0 +1,7 @@
+services:
+  dropbox_sign:
+    class: Drupal\dropbox_sign\DropboxSign
+    arguments: ['@config.factory', '@encryption', '@file_system', '@logger.channel.dropbox_sign', '@string_translation']
+  logger.channel.dropbox_sign:
+    parent: logger.channel_base
+    arguments: ['dropbox_sign']

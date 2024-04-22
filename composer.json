@@ -1,0 +1,11 @@
+{
+  "name": "drupal/dropbox_sign",
+  "type": "drupal-module",
+  "description": "Provides functionality for creating and signing eSignatures with the Dropbox Sign API.",
+  "homepage": "http://drupal.org/project/dropbox_sign",
+  "license": "GPL-2.0+",
+  "require": {
+    "drupal/encryption": "^3.0",
+    "dropbox/sign": "^1.3"
+  }
+}

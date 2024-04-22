@@ -1,0 +1,18 @@
+dropbox_sign.settings:
+  path: '/admin/config/system/dropbox-sign'
+  defaults:
+    _form: 'Drupal\dropbox_sign\Form\DropboxSignSettingsForm'
+    _title: 'Dropbox Sign API'
+  requirements:
+    _permission: 'administer dropbox sign'
+
+dropbox_sign.signature_callback:
+  path: '/process-dropbox-sign-callback'
+  defaults:
+    _controller: '\Drupal\dropbox_sign\Controller\DropboxSignController::signatureCallback'
+    _title: 'Dropbox Sign API signature callback endpoint'
+  methods: [POST]
+  requirements:
+    # Dropbox Sign's callbacks are made using an anonymous call to this URL.
+    # access is set to 'TRUE' so that the callbacks can always be processed.
+    _access: 'TRUE'

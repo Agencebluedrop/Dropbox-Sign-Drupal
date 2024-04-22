@@ -1,0 +1,4 @@
+administer dropbox sign:
+  title: 'Administer Dropbox Sign'
+  description: 'Perform administration tasks for the Dropbox Sign module.'
+  restrict access: true
